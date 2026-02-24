@@ -7,7 +7,7 @@ const {
     createBook,
     updateBook,
     deleteBook,
-} = require('../controllers/jobs')
+} = require('../controllers/books')
 
 router.route('/').post(createBook).get(getAllBooks)
 router.route('/:id').get(getCurrentBook).delete(deleteBook).patch(updateBook)
