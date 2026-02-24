@@ -37,11 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
   message = document.getElementById("message");
   handleLoginRegister();
   handleLogin();
-  handleJobs();
+  handleBooks();
   handleRegister();
   handleAddEdit();
   if (token) {
-    showJobs();
+    showBooks();
   } else {
     showLoginRegister();
   }
