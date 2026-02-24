@@ -21,12 +21,16 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 app.use(express.json());
 // extra packages
 
+app.use(express.static("public"));
+
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/books", authenticateUser, booksRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
+
+
 
 const port = process.env.PORT || 3000;
 
