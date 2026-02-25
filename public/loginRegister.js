@@ -21,5 +21,6 @@ export const handleLoginRegister = () => {
 };
 
 export const showLoginRegister = () => {
+  const loginRegisterDiv = document.getElementById("logon-register");
   setDiv(loginRegisterDiv);
 };
