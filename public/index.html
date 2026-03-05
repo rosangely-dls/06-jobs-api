@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -12,11 +12,11 @@
     <hr />
     <p id="message"></p>
     <hr />
-    <div id="logon-register" style="display:none;">
+    <div id="logon-register" style="display: none">
       <button type="button" id="logon">logon</button>
       <button type="button" id="register">register</button>
     </div>
-    <div id="logon-div" style="display:none;">
+    <div id="logon-div" style="display: none">
       <form>
         <div>
           <label for="email">email:</label>
@@ -30,7 +30,7 @@
         <button type="button" id="logon-cancel">cancel</button>
       </form>
     </div>
-    <div id="register-div" style="display:none;">
+    <div id="register-div" style="display: none">
       <form>
         <div>
           <label for="name">name:</label>
@@ -52,9 +52,10 @@
         <button type="button" id="register-cancel">cancel</button>
       </form>
     </div>
-    <div id="books" style="display:none;">
+    <div id="books" style="display: none">
       <p id="books-message"></p>
       <table id="books-table">
+        <thead>
         <tr id="books-table-header">
           <th>Book Title</th>
           <th>Genre</th>
@@ -63,11 +64,14 @@
           <th>Review</th>
           <th colspan="2"></th>
         </tr>
+        </thead>
+        <tbody id="books-table-body">
+        </tbody>
       </table>
-      <button type="button" id="adding-book">Add book</button>
+      <button type="button" id="addBook">Add book</button>
       <button type="button" id="logoff">Log off</button>
     </div>
-    <div id="edit-book" style="display:none;">
+    <div id="edit-book" style="display: none">
       <form>
         <div>
           <label for="bookTitle">Book Title:</label>
@@ -78,8 +82,8 @@
           <input type="text" id="author" />
         </div>
         <div>
-        <label for="genre">Genre:</label>
-        <input type="text" id="genre" name="genre" />
+          <label for="genre">Genre:</label>
+          <input type="text" id="genre" name="genre" />
         </div>
         <div>
           <label for="rating">Rating:</label>
@@ -92,13 +96,13 @@
           </select>
         </div>
         <div>
-        <label for="review">Review:</label>
-        <textarea id="review" name="review"></textarea>
+          <label for="review">Review:</label>
+          <textarea id="review" name="review"></textarea>
         </div>
-        <button type="button" id="adding-book">add</button>
+        <button type="button" id="addingBook">create</button>
         <button type="button" id="edit-cancel">cancel</button>
       </form>
     </div>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="./index.js"></script>
   </body>
 </html>

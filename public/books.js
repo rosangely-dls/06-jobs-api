@@ -1,3 +1,5 @@
+console.log("books.js loaded");
+
 import {
   inputEnabled,
   setDiv,
@@ -10,38 +12,44 @@ import { showLoginRegister } from "./loginRegister.js";
 import { showAddEdit } from "./addEdit.js";
 
 let booksDiv = null;
-let booksTable = null;
-let booksTableHeader = null;
+let booksTableBody = null;
 
 export const handleBooks = () => {
   booksDiv = document.getElementById("books");
+  console.log("booksDiv is:", booksDiv);
   const logoff = document.getElementById("logoff");
-  const addBook = document.getElementById("add-book");
-  booksTable = document.getElementById("books-table");
-  booksTableHeader = document.getElementById("books-table-header");
+  const addBook = document.getElementById("addBook");
+  booksTableBody = document.getElementById("books-table-body");
 
   booksDiv.addEventListener("click", async (e) => {
-    if (!inputEnabled || e.target.nodeName !== "BUTTON") return;
+    console.log("Books div clicked");
+    const button = e.target.closest("button");
+    console.log("Button found:", button);
+    if (!button) return;
+    //if (!inputEnabled || !button) return;
+
+    console.log("clicked:", button.id);
 
     // Add a new book
-    if (e.target === addBook) {
+    if (button.id === "addBook") {
+      console.log("Add book clicked");
       showAddEdit(null);
 
       // Log off
-    } else if (e.target === logoff) {
+    } else if (button.id === "logoff") {
       setToken(null);
       message.textContent = "You have been logged off.";
-      booksTable.replaceChildren([booksTableHeader]);
+      booksTableBody.replaceChildren();
       showLoginRegister();
 
       // Edit a book
-    } else if (e.target.classList.contains("editButton")) {
+    } else if (button.classList.contains("editButton")) {
       message.textContent = "";
-      showAddEdit(e.target.dataset.id);
+      showAddEdit(button.dataset.id);
 
       // Delete a book
-    } else if (e.target.classList.contains("deleteButton")) {
-      const bookId = e.target.dataset.id;
+    } else if (button.classList.contains("deleteButton")) {
+      const bookId = button.dataset.id;
 
       try {
         const response = await fetch(`/api/v1/books/${bookId}`, {
@@ -81,38 +89,31 @@ export const showBooks = async () => {
     });
 
     const data = await response.json();
-    let children = [booksTableHeader];
 
-    if (response.status === 200) {
-      if (data.count === 0) {
-        booksTable.replaceChildren(...children); // clear this for safety
-      } else {
-        for (let i = 0; i < data.books.length; i++) {
-          let rowEntry = document.createElement("tr");
+    booksTableBody.replaceChildren();
 
-          let editButton = `<td><button type="button" class="editButton" data-id=${data.books[i]._id}>edit</button></td>`;
-          let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.books[i]._id}>delete</button></td>`;
-          let rowHTML = `
-            <td>${data.books[i].bookTitle}</td>
-            <td>${data.books[i].author}</td>
-            <td>${data.books[i].genre}</td>
-            <td>${data.books[i].rating}</td>
-            <td>${data.books[i].review}</td>
-            
-            <div>${editButton}${deleteButton}</div>`;
+    if (response.status === 200 && data.count > 0) {
+      data.books.forEach((book) => {
+        const row = document.createElement("tr");
 
-          rowEntry.innerHTML = rowHTML;
-          children.push(rowEntry);
-        }
-        booksTable.replaceChildren(...children);
-      }
-    } else {
-      message.textContent = data.msg;
+        row.innerHTML = `
+          <td>${book.bookTitle}</td>
+          <td>${book.genre}</td>
+          <td>${book.author}</td>
+          <td>${book.rating}</td>
+          <td>${book.review}</td>
+          <td><button type="button" class="editButton" data-id="${book._id}">edit</button></td>
+          <td><button type="button" class="deleteButton" data-id="${book._id}">delete</button></td>
+        `;
+
+        booksTableBody.appendChild(row);
+      });
     }
   } catch (err) {
     console.log(err);
     message.textContent = "A communication error occurred.";
+  } finally {
+    enableInput(true);
+    setDiv(booksDiv);
   }
-  enableInput(true);
-  setDiv(booksDiv);
 };

@@ -1,3 +1,5 @@
+console.log("addEdit.js loaded");
+
 import { enableInput, inputEnabled, message, setDiv, token } from "./index.js";
 import { showBooks } from "./books.js";
 
@@ -18,12 +20,14 @@ export const handleAddEdit = () => {
   rating = document.getElementById("rating");
   review = document.getElementById("review");
 
-  addingBook = document.getElementById("adding-book");
+  addingBook = document.getElementById("addingBook");
   editCancel = document.getElementById("edit-cancel");
 
   addEditDiv.addEventListener("click", async (e) => {
-    if (inputEnabled && e.target.nodeName === "BUTTON") {
-      if (e.target === addingBook) {
+    const button = e.target.closest("button");
+
+    if (inputEnabled && button) {
+      if (button.id === "addingBook") {
         enableInput(false);
 
         let method = "POST";
@@ -51,6 +55,7 @@ export const handleAddEdit = () => {
           });
 
           const data = await response.json();
+
           if (response.status === 200 || response.status === 201) {
             message.textContent =
               response.status === 200
@@ -73,7 +78,7 @@ export const handleAddEdit = () => {
         }
 
         enableInput(true);
-      } else if (e.target === editCancel) {
+      } else if (button.id === "edit-cancel") {
         message.textContent = "";
         showBooks();
       }
@@ -82,6 +87,15 @@ export const handleAddEdit = () => {
 };
 
 export const showAddEdit = async (bookId) => {
+  console.log("showAddEdit triggered");
+
+  addEditDiv = document.getElementById("edit-book");
+  bookTitle = document.getElementById("bookTitle");
+  author = document.getElementById("author");
+  genre = document.getElementById("genre");
+  rating = document.getElementById("rating");
+  review = document.getElementById("review");
+
   if (!bookId) {
     bookTitle.value = "";
     author.value = "";

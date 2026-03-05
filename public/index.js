@@ -1,3 +1,5 @@
+console.log("index.js loaded");
+
 let activeDiv = null;
 export const setDiv = (newDiv) => {
   if (newDiv != activeDiv) {
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   handleBooks();
   handleRegister();
   handleAddEdit();
-  
+
   if (token) {
     showBooks();
   } else {
